@@ -1,0 +1,1 @@
+export const RANDOM_QUOTES_URL = 'http://localhost:3000/quotes/random?limit=12';
