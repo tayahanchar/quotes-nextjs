@@ -25,8 +25,7 @@ export default function Home() {
   }
 
   return (
-    <div className="pr-20 pl-20 flex flex-col gap-20 pt-10">
-      <h1 className="flex justify-center text-4xl font-bold">Quotes App</h1>
+    <div className="flex flex-col gap-20 pt-10">
       {error && <p className="self-center">Something went wrong</p>}
       <ul className="flex flex-wrap justify-center gap-10 pb-10">
         {quotes.map(quote => <QuoteCard key={quote.id} {...quote} />)}
