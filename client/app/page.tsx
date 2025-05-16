@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { QuoteCard } from "./components/quoteCard/QuoteCard";
-import { fetchQuotes } from "./helpers/fetchQuotes";
-import { RANDOM_QUOTES_URL } from "./constants";
+import { RANDOM_QUOTE_URL } from "./constants";
 
-export type quotesType = {
+export type quoteType = {
   id: number,
   text: string,
   author: string,
@@ -13,24 +11,28 @@ export type quotesType = {
 }
 
 export default function Home() {
-  const [quotes, setQuotes] = useState<quotesType[]>([])
-  const [error, setIsError] = useState<boolean>(false)
+  const [quote, setQuote] = useState<quoteType | null>(null);
 
   useEffect(() => {
-    fetchQuotes(RANDOM_QUOTES_URL, setQuotes, setIsError)
-  }, [])
-
-  const getMoreQuotes = () => {
-    fetchQuotes(RANDOM_QUOTES_URL, setQuotes, setIsError)
-  }
+    (async () => {
+      try {
+        const response = await fetch(RANDOM_QUOTE_URL);
+        const result = await response.json();
+        setQuote(result[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   return (
-    <div className="flex flex-col gap-20 pt-10">
-      {error && <p className="self-center">Something went wrong</p>}
-      <ul className="flex flex-wrap justify-center gap-10 pb-10">
-        {quotes.map(quote => <QuoteCard key={quote.id} {...quote} />)}
-      </ul>
-      {!error && <button className="bg-gray-300 mb-20 self-center pt-2 pb-2 pl-10 pr-10 rounded-lg cursor-pointer" onClick={getMoreQuotes}>Get more quotes</button>}
+    <div className="flex justify-center items-center flex-col gap-10 pt-30">
+      {quote &&
+        <>
+          <p className="text-4xl">{quote.text}</p>
+          <p className="text-base self-end">{quote.author}</p>
+        </>
+      }
     </div>
   );
 }
