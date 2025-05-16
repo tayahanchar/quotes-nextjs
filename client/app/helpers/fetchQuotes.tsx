@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { quoteType } from "../page";
 
 type TFetchQuotes = (
@@ -13,6 +14,7 @@ export const fetchQuotes: TFetchQuotes = async (url, setItems, setIsError) => {
     setItems(result)
   } catch (error) {
     setIsError(true)
+    toast.error('Something went wrong!');
     console.log(error)
   }
 }
