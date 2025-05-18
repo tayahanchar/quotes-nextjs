@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation"
 import { FC } from "react"
 
 interface IQuoteCardProps {
@@ -7,9 +8,15 @@ interface IQuoteCardProps {
   categories: string[]
 }
 
-export const QuoteCard: FC<IQuoteCardProps> = ({ text, author, categories }) => {
+export const QuoteCard: FC<IQuoteCardProps> = ({ text, author, categories, id }) => {
+  const router = useRouter()
+
+  const goToQuote = () => {
+    router.push(`/quotes/${id}`)
+  }
+
   return (
-    <div className="flex flex-col p-5 basis-80 bg-gray-100 gap-10 shadow-xs">
+    <div onClick={goToQuote} className="flex flex-col p-5 basis-80 bg-gray-100 gap-10 shadow-xs">
       <p className="text-sm self-center">{text}</p>
       <p className="text-base self-end">{author}</p>
       <ul className="flex gap-3 flex-wrap justify-center">
