@@ -1,43 +1,73 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { quoteType } from "../page";
 import { QuoteCard } from "../components/quoteCard/QuoteCard";
 import { toast } from 'react-toastify';
+import { useRouter, useSearchParams } from "next/navigation";
+
+const appendParams = (text: string, author: string) => {
+  const query = new URLSearchParams();
+  if (text) query.append('text', text);
+  if (author) query.append('author', author);
+  return query;
+}
 
 export default function SearchPage() {
-  const [title, setTitle] = useState<string>('');
+  const [text, setText] = useState<string>('');
   const [author, setAuthor] = useState<string>('');
-  const [quotes, setQuotes] = useState<quoteType[]>([])
+  const [quotes, setQuotes] = useState<quoteType[]>([]);
 
-  const handleSearch = async () => {
-    try {
-      const query = new URLSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-      if (title) query.append('text', title);
-      if (author) query.append('author', author);
+  useEffect(() => {
+    const authorFromParams = searchParams.get('author') || '';
+    const textFromParams = searchParams.get('text') || '';
 
-      const response = await fetch(`http://localhost:3000/quotes?${query}&limit=12`);
-      const result = await response.json();
-      setQuotes(result)
+    if (!authorFromParams && !textFromParams) return;
 
-    } catch (e) {
-      console.log(e)
-      toast.error('Something went wrong!');
-    }
+    setAuthor(authorFromParams);
+    setText(textFromParams);
+
+    (async function () {
+      try {
+        const query = appendParams(textFromParams, authorFromParams);
+
+        const response = await fetch(`http://localhost:3000/quotes?${query}&limit=12`);
+
+        if (!response.ok) {
+          toast.error(`Something went wrong!`);
+          return;
+        }
+        const result = await response.json();
+
+        setQuotes(result);
+      } catch {
+        toast.error(`Something went wrong!`);
+      }
+    })()
+
+  }, [searchParams])
+
+
+  const handleSearch = () => {
+    const query = appendParams(text, author);
+    router.push(`?${query}`);
   }
 
   const handleReset = () => {
     setQuotes([]);
-    setTitle('');
+    setText('');
     setAuthor('');
+    router.push(`/search`);
   }
 
   return (
     <div>
       <div>
         <input type="text" name="author" placeholder="author" value={author} onChange={(event) => setAuthor(event.target.value)} />
-        <input type="text" name="title" placeholder="text" value={title} onChange={(event) => setTitle(event.target.value)} />
+        <input type="text" name="title" placeholder="text" value={text} onChange={(event) => setText(event.target.value)} />
         <button onClick={handleSearch}>Search</button>
         <button onClick={handleReset}>Reset</button>
       </div>
