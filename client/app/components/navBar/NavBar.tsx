@@ -8,6 +8,7 @@ export const NavBar = () => {
         <ul className="flex gap-10">
           <li><Link href={"/random"}>Random quotes</Link></li>
           <li><Link href={"/search"}>Search quotes</Link></li>
+          <li><Link href={"/create"}>Create quote</Link></li>
         </ul>
       </nav>
     </header>

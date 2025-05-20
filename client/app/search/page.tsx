@@ -33,6 +33,7 @@ export default function SearchPage() {
     (async function () {
       try {
         const query = appendParams(textFromParams, authorFromParams);
+        router.push(`?${query}`);
 
         const response = await fetch(`http://localhost:3000/quotes?${query}&limit=12`);
 
@@ -48,6 +49,7 @@ export default function SearchPage() {
       }
     })()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
 
@@ -72,6 +74,7 @@ export default function SearchPage() {
         <button onClick={handleReset}>Reset</button>
       </div>
       <ul className="flex flex-wrap justify-center gap-10 pb-10 pt-10">
+        {!quotes.length && <div>There is no quotes</div>}
         {quotes.map(quote => <QuoteCard key={quote.id} {...quote} />)}
       </ul>
     </div>

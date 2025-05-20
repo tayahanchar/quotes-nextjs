@@ -14,6 +14,15 @@ export default function Quote({ id }: IQuoteParams) {
   const QUOTE_URL = `http://localhost:3000/quotes/${id}`;
 
   useEffect(() => {
+    const created = sessionStorage.getItem('created');
+
+    if (created) {
+      toast.info('Quote created!');
+      sessionStorage.removeItem('created');
+    }
+  }, [])
+
+  useEffect(() => {
     (async function () {
       if (id) {
         try {
