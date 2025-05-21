@@ -52,6 +52,13 @@ export default function SearchPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
+  useEffect(() => {
+    if (sessionStorage.getItem('delete')) {
+      sessionStorage.removeItem('delete');
+      toast.info('Quote was deleted!')
+    }
+  }, [])
+
 
   const handleSearch = () => {
     const query = appendParams(text, author);

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { quotesType } from "@/app/random/page";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface IQuoteParams {
   id: string
@@ -12,6 +13,7 @@ export default function Quote({ id }: IQuoteParams) {
   const [quote, setQuote] = useState<null | quotesType>(null);
   const [isError, setIsError] = useState<boolean>(false)
   const QUOTE_URL = `http://localhost:3000/quotes/${id}`;
+  const router = useRouter();
 
   useEffect(() => {
     const created = sessionStorage.getItem('created');
@@ -44,6 +46,25 @@ export default function Quote({ id }: IQuoteParams) {
     })()
   }, [QUOTE_URL, id])
 
+  const deleteQuote = async () => {
+    try {
+      if (id) {
+        const request = await fetch(`http://localhost:3000/quotes/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (!request.ok) {
+          toast.error('Quote was not deleted')
+        }
+
+        sessionStorage.setItem('delete', 'true')
+        router.back()
+      }
+    } catch {
+      toast.error('Something went wrong!')
+    }
+  }
+
   if (isError) {
     return (
       <p>Something went wrong</p>
@@ -57,6 +78,7 @@ export default function Quote({ id }: IQuoteParams) {
       <ul className="flex gap-3 flex-wrap justify-center">
         {quote?.categories.map((category) => <div className="p-1 text-xs bg-rose-100 rounded-md" key={category}>{category}</div>)}
       </ul>
+      <button onClick={deleteQuote}>delete this quote</button>
     </div>
   )
 }

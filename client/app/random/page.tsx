@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { fetchQuotes } from "../helpers/fetchQuotes"
 import { RANDOM_QUOTES_URL } from "../constants"
 import { QuoteCard } from "../components/quoteCard/QuoteCard"
+import { toast } from "react-toastify"
 
 export type quotesType = {
   id: number,
@@ -15,6 +16,13 @@ export type quotesType = {
 export default function RandomPage() {
   const [quotes, setQuotes] = useState<quotesType[]>([])
   const [error, setIsError] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (sessionStorage.getItem('delete')) {
+      sessionStorage.removeItem('delete');
+      toast.info('Quote was deleted!')
+    }
+  }, [])
 
   useEffect(() => {
     fetchQuotes(RANDOM_QUOTES_URL, setQuotes, setIsError)
