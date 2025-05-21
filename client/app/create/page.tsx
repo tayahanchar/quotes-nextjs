@@ -5,19 +5,8 @@ import { useState } from "react"
 import { toast } from 'react-toastify';
 import { InputField } from "../components/InputField/InputField";
 import { QUOTES_URL } from "../constants";
-
-type fieldValidationErrorType = {
-  type: string,
-  value: string,
-  msg: string,
-  path: string,
-  location: string
-}
-
-const createArrayOFUniqueValues = (array: string[]) => {
-  const valuesSet = new Set(array);
-  return Array.from(valuesSet);
-}
+import { createArrayOFUniqueValues } from "../quotes/[id]/createArrayOfUniqueValue";
+import { fieldValidationErrorType } from "../quotes/[id]/types";
 
 export default function CreateQuote() {
   const [text, setText] = useState<string>('');

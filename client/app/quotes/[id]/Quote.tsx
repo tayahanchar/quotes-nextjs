@@ -18,10 +18,16 @@ export default function Quote({ id }: IQuoteParams) {
 
   useEffect(() => {
     const created = sessionStorage.getItem('created');
+    const edited = sessionStorage.getItem('edited');
 
     if (created) {
       toast.info('Quote created!');
       sessionStorage.removeItem('created');
+    }
+
+    if (edited) {
+      toast.info('Quote edited!');
+      sessionStorage.removeItem('edited');
     }
   }, [])
 
@@ -80,6 +86,7 @@ export default function Quote({ id }: IQuoteParams) {
         {quote?.categories.map((category) => <div className="p-1 text-xs bg-rose-100 rounded-md" key={category}>{category}</div>)}
       </ul>
       <button onClick={deleteQuote}>delete this quote</button>
+      <button onClick={() => router.push(`/quotes/${id}/edit`)}>edit this quote</button>
     </div>
   )
 }
