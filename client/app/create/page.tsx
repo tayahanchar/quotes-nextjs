@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react"
 import { toast } from 'react-toastify';
 import { InputField } from "../components/InputField/InputField";
+import { QUOTES_URL } from "../constants";
 
 type fieldValidationErrorType = {
   type: string,
@@ -34,7 +35,7 @@ export default function CreateQuote() {
     }
 
     try {
-      const request = await fetch('http://localhost:3000/quotes', {
+      const request = await fetch(QUOTES_URL, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {

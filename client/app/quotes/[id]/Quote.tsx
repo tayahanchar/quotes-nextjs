@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { quotesType } from "@/app/random/page";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { QUOTES_URL } from "@/app/constants";
 
 interface IQuoteParams {
   id: string
@@ -12,7 +13,7 @@ interface IQuoteParams {
 export default function Quote({ id }: IQuoteParams) {
   const [quote, setQuote] = useState<null | quotesType>(null);
   const [isError, setIsError] = useState<boolean>(false)
-  const QUOTE_URL = `http://localhost:3000/quotes/${id}`;
+  const QUOTE_URL = `${QUOTES_URL}/${id}`;
   const router = useRouter();
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function Quote({ id }: IQuoteParams) {
   const deleteQuote = async () => {
     try {
       if (id) {
-        const request = await fetch(`http://localhost:3000/quotes/${id}`, {
+        const request = await fetch(QUOTE_URL, {
           method: 'DELETE'
         });
 
