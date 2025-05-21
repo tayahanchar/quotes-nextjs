@@ -18,6 +18,7 @@ export default function SearchPage() {
   const [text, setText] = useState<string>('');
   const [author, setAuthor] = useState<string>('');
   const [quotes, setQuotes] = useState<quoteType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -33,6 +34,7 @@ export default function SearchPage() {
 
     (async function () {
       try {
+        setIsLoading(true);
         const query = appendParams(textFromParams, authorFromParams);
         router.push(`?${query}`);
 
@@ -47,11 +49,12 @@ export default function SearchPage() {
         setQuotes(result);
       } catch {
         toast.error(`Something went wrong!`);
+      } finally {
+        setIsLoading(false);
       }
     })()
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams])
+  }, [router, searchParams])
 
   useEffect(() => {
     if (sessionStorage.getItem('delete')) {
@@ -59,7 +62,6 @@ export default function SearchPage() {
       toast.info('Quote was deleted!')
     }
   }, [])
-
 
   const handleSearch = () => {
     const query = appendParams(text, author);
@@ -71,6 +73,14 @@ export default function SearchPage() {
     setText('');
     setAuthor('');
     router.push(`/search`);
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <span className="w-12 h-12 border-4 border-white border-b-transparent rounded-full inline-block animate-spin" />
+      </div>
+    )
   }
 
   return (

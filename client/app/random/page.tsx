@@ -16,6 +16,7 @@ export type quotesType = {
 export default function RandomPage() {
   const [quotes, setQuotes] = useState<quotesType[]>([])
   const [error, setIsError] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (sessionStorage.getItem('delete')) {
@@ -25,11 +26,27 @@ export default function RandomPage() {
   }, [])
 
   useEffect(() => {
-    fetchQuotes(RANDOM_QUOTES_URL, setQuotes, setIsError)
+    (async function () {
+      setIsLoading(true);
+      await fetchQuotes(RANDOM_QUOTES_URL, setQuotes, setIsError);
+      setIsLoading(false);
+    })()
   }, [])
 
   const getMoreQuotes = () => {
-    fetchQuotes(RANDOM_QUOTES_URL, setQuotes, setIsError)
+    (async function () {
+      setIsLoading(true);
+      await fetchQuotes(RANDOM_QUOTES_URL, setQuotes, setIsError);
+      setIsLoading(false);
+    })()
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <span className="w-12 h-12 border-4 border-white border-b-transparent rounded-full inline-block animate-spin" />
+      </div>
+    )
   }
 
   return (
