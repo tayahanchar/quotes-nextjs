@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { quoteType } from "../page";
+import { quoteType } from "../(routes)/page";
 
 type TFetchQuotes = (
   url: string,

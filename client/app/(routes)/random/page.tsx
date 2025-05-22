@@ -1,9 +1,9 @@
 'use client'
 
+import { QuoteCard } from "@/app/components/quoteCard/QuoteCard"
+import { RANDOM_QUOTES_URL } from "@/app/constants"
+import { fetchQuotes } from "@/app/helpers/fetchQuotes"
 import { useEffect, useState } from "react"
-import { fetchQuotes } from "../helpers/fetchQuotes"
-import { RANDOM_QUOTES_URL } from "../constants"
-import { QuoteCard } from "../components/quoteCard/QuoteCard"
 import { toast } from "react-toastify"
 
 export type quotesType = {

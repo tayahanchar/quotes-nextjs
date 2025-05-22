@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { quoteType } from "../page";
-import { QuoteCard } from "../components/quoteCard/QuoteCard";
+import { QuoteCard } from "../../components/quoteCard/QuoteCard";
 import { toast } from 'react-toastify';
 import { useRouter, useSearchParams } from "next/navigation";
-import { QUOTES_URL } from "../constants";
+import { QUOTES_URL } from "../../constants";
+import { quoteType } from "../page";
 
 const appendParams = (text: string, author: string) => {
   const query = new URLSearchParams();

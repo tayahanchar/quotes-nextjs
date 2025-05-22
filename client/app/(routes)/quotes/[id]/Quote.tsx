@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { quotesType } from "@/app/random/page";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { QUOTES_URL } from "@/app/constants";
+import { quotesType } from "../../random/page";
 
 interface IQuoteParams {
   id: string

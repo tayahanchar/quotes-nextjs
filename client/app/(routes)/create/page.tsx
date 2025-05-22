@@ -3,10 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 import { toast } from 'react-toastify';
-import { InputField } from "../components/InputField/InputField";
-import { QUOTES_URL } from "../constants";
 import { createArrayOFUniqueValues } from "../quotes/[id]/createArrayOfUniqueValue";
+import { QUOTES_URL } from "@/app/constants";
 import { fieldValidationErrorType } from "../quotes/[id]/types";
+import { InputField } from "@/app/components/InputField/InputField";
 
 export default function CreateQuote() {
   const [text, setText] = useState<string>('');

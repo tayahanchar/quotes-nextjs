@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { RANDOM_QUOTE_URL } from "./constants";
+import { RANDOM_QUOTE_URL } from "../constants";
 
 export type quoteType = {
   id: number,
